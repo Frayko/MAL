@@ -11,6 +11,7 @@ final class AnimeStorage
 {
 	static let shared = AnimeStorage()
 	private var animes: [AnimeModel]
+	private let container = AnimeListDBStorage()
 	
 	private init() {
 		self.animes = [AnimeModel]()

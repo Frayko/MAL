@@ -17,6 +17,7 @@ final class AnimeListPresenter
 	private let model: IAnimeListModel
 	private let router: IAnimeListRouter
 	private let network: INetworkService
+	private let animeStorage: IAnimeDBStorage
 	private weak var view: IAnimeListView?
 	private weak var controller: IAnimeListVC?
 	private let collectionDelegate: IAnimeListCollectionDelegate
@@ -28,12 +29,14 @@ final class AnimeListPresenter
 		let model: IAnimeListModel
 		let router: IAnimeListRouter
 		let network: INetworkService
+		let animeStorage: IAnimeDBStorage
 	}
 	
 	init(dependecies: Dependecies) {
 		self.model = dependecies.model
 		self.router = dependecies.router
 		self.network = dependecies.network
+		self.animeStorage = dependecies.animeStorage
 		self.animesInstance = AnimeStorage.shared
 		self.collectionDataSource = AnimeListCollectionDataSource()
 		self.collectionDelegate = AnimeListCollectionDeletage()
@@ -56,8 +59,8 @@ extension AnimeListPresenter: IAnimeListPresenter
 		self.collectionDataSource.didLoad()
 		self.collectionDelegate.setDataSource(self.collectionDataSource.getDataSource())
 		
+	
 		self.loadData()
-		self.updateData()
 		self.setHandlers()
 	}
 }
@@ -74,16 +77,16 @@ private extension AnimeListPresenter
 					
 					for anime in animeTopRequest.top {
 						self.animesInstance.append(AnimeModel(malID: anime.malID,
-														 rank: anime.rank,
-														 title: anime.title,
-														 url: anime.url,
-														 imageURL: anime.imageURL,
-														 type: anime.type.rawValue,
-														 episodes: anime.episodes,
-														 startDate: anime.startDate ?? "",
-														 endData: anime.endDate ?? "",
-														 members: anime.members,
-														 score: anime.score))
+															  rank: anime.rank,
+															  title: anime.title,
+															  url: anime.url,
+															  imageURL: anime.imageURL,
+															  type: anime.type.rawValue,
+															  episodes: anime.episodes,
+															  startDate: anime.startDate ?? "",
+															  endDate: anime.endDate ?? "",
+															  members: anime.members,
+															  score: anime.score))
 					}
 					
 					self.updateData()

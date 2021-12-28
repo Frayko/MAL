@@ -10,12 +10,14 @@ import UIKit
 enum AnimeListAssembly
 {
 	static func build() -> UIViewController {
+		let animeStorage = AnimeListDBStorage()
 		let network = NetworkService()
 		let router = AnimeListRouter()
 		let model = AnimeListModel()
 		let presenter = AnimeListPresenter(dependecies: .init(model: model,
 															  router: router,
-															  network: network))
+															  network: network,
+															  animeStorage: animeStorage))
 		let controller = AnimeListVC(presenter: presenter)
 		return controller
 	}

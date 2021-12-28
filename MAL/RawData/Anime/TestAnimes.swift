@@ -17,7 +17,7 @@ enum TestAnimes
 								   type: "TV",
 								   episodes: 64,
 								   startDate: "Apr 2009",
-								   endData: "Jul 2010",
+								   endDate: "Jul 2010",
 								   members: 2716506,
 								   score: 9.15)
 	
@@ -29,7 +29,7 @@ enum TestAnimes
 								   type: "TV",
 								   episodes: 64,
 								   startDate: "Apr 2009",
-								   endData: "Jul 2010",
+								   endDate: "Jul 2010",
 								   members: 2716506,
 								   score: 9.15)
 	
@@ -41,7 +41,7 @@ enum TestAnimes
 								   type: "TV",
 								   episodes: 64,
 								   startDate: "Apr 2009",
-								   endData: "Jul 2010",
+								   endDate: "Jul 2010",
 								   members: 2716506,
 								   score: 9.15)
 	
@@ -53,7 +53,7 @@ enum TestAnimes
 								   type: "TV",
 								   episodes: 64,
 								   startDate: "Apr 2009",
-								   endData: "Jul 2010",
+								   endDate: "Jul 2010",
 								   members: 2716506,
 								   score: 9.15)
 	
@@ -65,7 +65,7 @@ enum TestAnimes
 								   type: "TV",
 								   episodes: 64,
 								   startDate: "Apr 2009",
-								   endData: "Jul 2010",
+								   endDate: "Jul 2010",
 								   members: 2716506,
 								   score: 9.15)
 }
