@@ -74,11 +74,11 @@ private extension AnimeListPresenter
 	func setHandlers() {
 		self.collectionDelegate.setOnTouchedHandler { [weak self] malID in
 			print("touched malID - ", malID)
+			self?.router.goToDetailPage(malID: malID)
 		}
 		
-		self.router.setPushControllerHandler { [weak self] id in
-			print("test")
-			//self?.controller?.pushDetailCar(id: id)
+		self.router.setPushControllerHandler { [weak self] malID in
+			self?.controller?.pushDetailPage(malID: malID)
 		}
 	}
 }

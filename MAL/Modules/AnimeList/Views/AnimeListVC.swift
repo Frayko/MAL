@@ -41,7 +41,8 @@ final class AnimeListVC: UIViewController
 extension AnimeListVC: IAnimeListVC
 {
 	func pushDetailPage(malID: Int) {
-		//let detailCarVC = DetailCarAssembly.build(id: id)
-		//self.navigationController?.pushViewController(detailCarVC, animated: true)
+		let detailPageVC = DetailPageAssembly.build(malID: malID)
+		self.navigationController?.pushViewController(detailPageVC,
+													  animated: true)
 	}
 }
