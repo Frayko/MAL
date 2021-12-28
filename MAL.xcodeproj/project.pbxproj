@@ -7,14 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		97120B132778A777007A3E13 /* AnimeListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97120B122778A777007A3E13 /* AnimeListData.swift */; };
+		97120B1B277AD18B007A3E13 /* DetailAnimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97120B1A277AD18B007A3E13 /* DetailAnimeModel.swift */; };
+		97120B1D277AD19C007A3E13 /* DetailAnimeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97120B1C277AD19C007A3E13 /* DetailAnimeStorage.swift */; };
+		97120B1F277AD1A6007A3E13 /* TestDetailAnimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97120B1E277AD1A6007A3E13 /* TestDetailAnimes.swift */; };
 		97AADF332778869100CB7CB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF322778869100CB7CB5 /* AppDelegate.swift */; };
 		97AADF352778869100CB7CB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF342778869100CB7CB5 /* SceneDelegate.swift */; };
 		97AADF3D2778869100CB7CB5 /* Anime_List.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF3B2778869100CB7CB5 /* Anime_List.xcdatamodeld */; };
 		97AADF3F2778869200CB7CB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97AADF3E2778869200CB7CB5 /* Assets.xcassets */; };
 		97AADF422778869200CB7CB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97AADF402778869200CB7CB5 /* LaunchScreen.storyboard */; };
+		97AADF5327788C9200CB7CB5 /* AnimeListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF5227788C9200CB7CB5 /* AnimeListLayout.swift */; };
+		97AADF5527788CAF00CB7CB5 /* AnimeListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF5427788CAF00CB7CB5 /* AnimeListVC.swift */; };
+		97AADF5727788CB900CB7CB5 /* AnimeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF5627788CB900CB7CB5 /* AnimeListView.swift */; };
+		97AADF5A27788CC900CB7CB5 /* AnimeListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF5927788CC900CB7CB5 /* AnimeListViewCell.swift */; };
+		97AADF5C27788D0E00CB7CB5 /* AnimeListCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF5B27788D0E00CB7CB5 /* AnimeListCollectionDataSource.swift */; };
+		97AADF5E27788D2100CB7CB5 /* AnimeListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF5D27788D2100CB7CB5 /* AnimeListDelegate.swift */; };
+		97AADF6027788D3100CB7CB5 /* AnimeListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF5F27788D3100CB7CB5 /* AnimeListModel.swift */; };
+		97AADF6227788D3C00CB7CB5 /* AnimeListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF6127788D3C00CB7CB5 /* AnimeListPresenter.swift */; };
+		97AADF6627788DD300CB7CB5 /* AnimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF6527788DD300CB7CB5 /* AnimeModel.swift */; };
+		97AADF6827788F4100CB7CB5 /* AnimeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF6727788F4100CB7CB5 /* AnimeStorage.swift */; };
+		97AADF6A2778918B00CB7CB5 /* TestAnimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF692778918B00CB7CB5 /* TestAnimes.swift */; };
+		97AADF6E2778942C00CB7CB5 /* AnimeListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF6D2778942C00CB7CB5 /* AnimeListRouter.swift */; };
+		97AADF702778943A00CB7CB5 /* AnimeListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF6F2778943A00CB7CB5 /* AnimeListAssembly.swift */; };
+		97AADF722778987400CB7CB5 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AADF712778987400CB7CB5 /* AppNavigationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		97120B122778A777007A3E13 /* AnimeListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListData.swift; sourceTree = "<group>"; };
+		97120B1A277AD18B007A3E13 /* DetailAnimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAnimeModel.swift; sourceTree = "<group>"; };
+		97120B1C277AD19C007A3E13 /* DetailAnimeStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAnimeStorage.swift; sourceTree = "<group>"; };
+		97120B1E277AD1A6007A3E13 /* TestDetailAnimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDetailAnimes.swift; sourceTree = "<group>"; };
 		97AADF2F2778869100CB7CB5 /* MAL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MAL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97AADF322778869100CB7CB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97AADF342778869100CB7CB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -22,6 +44,20 @@
 		97AADF3E2778869200CB7CB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97AADF412778869200CB7CB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97AADF432778869200CB7CB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		97AADF5227788C9200CB7CB5 /* AnimeListLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListLayout.swift; sourceTree = "<group>"; };
+		97AADF5427788CAF00CB7CB5 /* AnimeListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListVC.swift; sourceTree = "<group>"; };
+		97AADF5627788CB900CB7CB5 /* AnimeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListView.swift; sourceTree = "<group>"; };
+		97AADF5927788CC900CB7CB5 /* AnimeListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListViewCell.swift; sourceTree = "<group>"; };
+		97AADF5B27788D0E00CB7CB5 /* AnimeListCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListCollectionDataSource.swift; sourceTree = "<group>"; };
+		97AADF5D27788D2100CB7CB5 /* AnimeListDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListDelegate.swift; sourceTree = "<group>"; };
+		97AADF5F27788D3100CB7CB5 /* AnimeListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListModel.swift; sourceTree = "<group>"; };
+		97AADF6127788D3C00CB7CB5 /* AnimeListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListPresenter.swift; sourceTree = "<group>"; };
+		97AADF6527788DD300CB7CB5 /* AnimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeModel.swift; sourceTree = "<group>"; };
+		97AADF6727788F4100CB7CB5 /* AnimeStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeStorage.swift; sourceTree = "<group>"; };
+		97AADF692778918B00CB7CB5 /* TestAnimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAnimes.swift; sourceTree = "<group>"; };
+		97AADF6D2778942C00CB7CB5 /* AnimeListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListRouter.swift; sourceTree = "<group>"; };
+		97AADF6F2778943A00CB7CB5 /* AnimeListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListAssembly.swift; sourceTree = "<group>"; };
+		97AADF712778987400CB7CB5 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +90,7 @@
 		97AADF312778869100CB7CB5 /* MAL */ = {
 			isa = PBXGroup;
 			children = (
+				97AADF6327788D4500CB7CB5 /* RawData */,
 				97AADF49277887F100CB7CB5 /* Application */,
 				97AADF4C2778891400CB7CB5 /* Modules */,
 				97AADF4A2778880400CB7CB5 /* Resources */,
@@ -67,6 +104,7 @@
 			children = (
 				97AADF322778869100CB7CB5 /* AppDelegate.swift */,
 				97AADF342778869100CB7CB5 /* SceneDelegate.swift */,
+				97AADF712778987400CB7CB5 /* AppNavigationController.swift */,
 				97AADF402778869200CB7CB5 /* LaunchScreen.storyboard */,
 				97AADF432778869200CB7CB5 /* Info.plist */,
 			);
@@ -100,8 +138,88 @@
 		97AADF4D2778894800CB7CB5 /* AnimeList */ = {
 			isa = PBXGroup;
 			children = (
+				97AADF5127788C0700CB7CB5 /* Metrics */,
+				97AADF6C2778941700CB7CB5 /* Assembly */,
+				97AADF6B2778940B00CB7CB5 /* Router */,
+				97AADF5027788BFB00CB7CB5 /* Presenters */,
+				97AADF4F27788BF500CB7CB5 /* Models */,
+				97AADF4E27788BE500CB7CB5 /* Views */,
 			);
 			path = AnimeList;
+			sourceTree = "<group>";
+		};
+		97AADF4E27788BE500CB7CB5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				97AADF5427788CAF00CB7CB5 /* AnimeListVC.swift */,
+				97AADF5627788CB900CB7CB5 /* AnimeListView.swift */,
+				97AADF5927788CC900CB7CB5 /* AnimeListViewCell.swift */,
+				97AADF5B27788D0E00CB7CB5 /* AnimeListCollectionDataSource.swift */,
+				97AADF5D27788D2100CB7CB5 /* AnimeListDelegate.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		97AADF4F27788BF500CB7CB5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				97AADF5F27788D3100CB7CB5 /* AnimeListModel.swift */,
+				97120B122778A777007A3E13 /* AnimeListData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		97AADF5027788BFB00CB7CB5 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				97AADF6127788D3C00CB7CB5 /* AnimeListPresenter.swift */,
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
+		97AADF5127788C0700CB7CB5 /* Metrics */ = {
+			isa = PBXGroup;
+			children = (
+				97AADF5227788C9200CB7CB5 /* AnimeListLayout.swift */,
+			);
+			path = Metrics;
+			sourceTree = "<group>";
+		};
+		97AADF6327788D4500CB7CB5 /* RawData */ = {
+			isa = PBXGroup;
+			children = (
+				97AADF6427788DBC00CB7CB5 /* Anime */,
+			);
+			path = RawData;
+			sourceTree = "<group>";
+		};
+		97AADF6427788DBC00CB7CB5 /* Anime */ = {
+			isa = PBXGroup;
+			children = (
+				97AADF6527788DD300CB7CB5 /* AnimeModel.swift */,
+				97AADF6727788F4100CB7CB5 /* AnimeStorage.swift */,
+				97AADF692778918B00CB7CB5 /* TestAnimes.swift */,
+				97120B1A277AD18B007A3E13 /* DetailAnimeModel.swift */,
+				97120B1C277AD19C007A3E13 /* DetailAnimeStorage.swift */,
+				97120B1E277AD1A6007A3E13 /* TestDetailAnimes.swift */,
+			);
+			path = Anime;
+			sourceTree = "<group>";
+		};
+		97AADF6B2778940B00CB7CB5 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				97AADF6D2778942C00CB7CB5 /* AnimeListRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		97AADF6C2778941700CB7CB5 /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				97AADF6F2778943A00CB7CB5 /* AnimeListAssembly.swift */,
+			);
+			path = Assembly;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,8 +292,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97AADF6827788F4100CB7CB5 /* AnimeStorage.swift in Sources */,
+				97AADF5E27788D2100CB7CB5 /* AnimeListDelegate.swift in Sources */,
+				97AADF5327788C9200CB7CB5 /* AnimeListLayout.swift in Sources */,
+				97AADF5527788CAF00CB7CB5 /* AnimeListVC.swift in Sources */,
+				97AADF722778987400CB7CB5 /* AppNavigationController.swift in Sources */,
+				97120B1D277AD19C007A3E13 /* DetailAnimeStorage.swift in Sources */,
 				97AADF3D2778869100CB7CB5 /* Anime_List.xcdatamodeld in Sources */,
+				97AADF6227788D3C00CB7CB5 /* AnimeListPresenter.swift in Sources */,
+				97AADF6A2778918B00CB7CB5 /* TestAnimes.swift in Sources */,
+				97120B132778A777007A3E13 /* AnimeListData.swift in Sources */,
+				97AADF6027788D3100CB7CB5 /* AnimeListModel.swift in Sources */,
+				97AADF702778943A00CB7CB5 /* AnimeListAssembly.swift in Sources */,
+				97AADF5A27788CC900CB7CB5 /* AnimeListViewCell.swift in Sources */,
+				97AADF5727788CB900CB7CB5 /* AnimeListView.swift in Sources */,
+				97120B1B277AD18B007A3E13 /* DetailAnimeModel.swift in Sources */,
+				97AADF5C27788D0E00CB7CB5 /* AnimeListCollectionDataSource.swift in Sources */,
 				97AADF332778869100CB7CB5 /* AppDelegate.swift in Sources */,
+				97120B1F277AD1A6007A3E13 /* TestDetailAnimes.swift in Sources */,
+				97AADF6E2778942C00CB7CB5 /* AnimeListRouter.swift in Sources */,
+				97AADF6627788DD300CB7CB5 /* AnimeModel.swift in Sources */,
 				97AADF352778869100CB7CB5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
