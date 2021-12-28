@@ -21,7 +21,12 @@ final class AnimeStorage
 extension AnimeStorage
 {
 	func append(_ anime: AnimeModel) {
-		self.animes.append(anime)
+		if let _ = self.animes.first(where: { $0.malID == anime.malID }) {
+			return
+		}
+		else {
+			self.animes.append(anime)
+		}
 	}
 	
 	func getAnimes() -> [AnimeModel] {

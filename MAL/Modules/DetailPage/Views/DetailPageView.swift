@@ -36,7 +36,7 @@ final class DetailPageView: UIView {
 		imageView.center = self.center
 		imageView.backgroundColor = .lightGray
 		imageView.widthAnchor.constraint(equalToConstant: self.bounds.width / DetailPageLayout.imageViewWidthConstant).isActive = true
-		imageView.heightAnchor.constraint(equalToConstant: self.bounds.height / DetailPageLayout.imageViewHeightConstant).isActive = true
+		//imageView.heightAnchor.constraint(equalToConstant: self.bounds.height / DetailPageLayout.imageViewHeightConstant).isActive = true
 		
 		return imageView
 	}()

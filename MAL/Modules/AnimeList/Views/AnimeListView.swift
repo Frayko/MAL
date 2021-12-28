@@ -10,22 +10,38 @@ import UIKit
 protocol IAnimeListView: UIView {
 	func didLoad()
 	func setCollectionDelegate(delegate: IAnimeListCollectionDelegate)
+	func startRefreshing()
+	func stopRefreshing()
 	func getAnimesCollectionView() -> UICollectionView
-	func reloadView()
+	func setOnRefreshHandler(_ handler: @escaping (() -> Void))
 }
 
 final class AnimeListView: UIView {
+	private var onRefreshHandler: (() -> Void)?
+	
+	private lazy var refreshControll: UIRefreshControl = {
+		let refresh = UIRefreshControl()
+		refresh.attributedTitle = NSAttributedString(string: "Pull to refresh")
+		refresh.addTarget(self, action: #selector(refreshCollection), for: .valueChanged)
+		return refresh
+	}()
+	
 	private lazy var animesCollectionView: UICollectionView = {
 		let layout = createAnimeListLayout()
 		let collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.backgroundColor = .systemBackground
 		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+		collectionView.addSubview(self.refreshControll)
 		return collectionView
 	}()
 }
 
 extension AnimeListView: IAnimeListView {
+	func setOnRefreshHandler(_ handler: @escaping (() -> Void)) {
+		self.onRefreshHandler = handler
+	}
+	
 	func setCollectionDelegate(delegate: IAnimeListCollectionDelegate) {
 		self.animesCollectionView.delegate = delegate
 	}
@@ -39,12 +55,22 @@ extension AnimeListView: IAnimeListView {
 		self.configView()
 	}
 	
-	func reloadView() {
-		self.animesCollectionView.reloadData()
+	func stopRefreshing() {
+		self.refreshControll.endRefreshing()
+	}
+	
+	func startRefreshing() {
+		self.refreshControll.beginRefreshing()
 	}
 }
 
-private extension AnimeListView {
+private extension AnimeListView
+{
+	@objc
+	func refreshCollection() {
+		self.onRefreshHandler?()
+	}
+	
 	func configUI() {
 		self.backgroundColor = .systemBackground
 	}

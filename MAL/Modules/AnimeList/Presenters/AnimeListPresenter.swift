@@ -68,6 +68,7 @@ extension AnimeListPresenter: IAnimeListPresenter
 private extension AnimeListPresenter
 {
 	func loadData() {
+		self.view?.startRefreshing()
 		self.network.loadData(urlString: self.animeTopURL) { (result: Result<AnimeTopRequest, Error>) in
 			switch result {
 			case .success(let animeTopRequest):
@@ -98,6 +99,7 @@ private extension AnimeListPresenter
 				}
 			}
 		}
+		self.view?.stopRefreshing()
 	}
 	
 	func updateData() {
@@ -109,7 +111,6 @@ private extension AnimeListPresenter
 		}
 		
 		self.collectionDataSource.updateSnapshot(with: animes)
-		self.view?.reloadView()
 	}
 
 	func setHandlers() {
@@ -120,6 +121,10 @@ private extension AnimeListPresenter
 		
 		self.router.setPushControllerHandler { [weak self] malID in
 			self?.controller?.pushDetailPage(malID: malID)
+		}
+		
+		self.view?.setOnRefreshHandler {
+			self.loadData()
 		}
 	}
 }
