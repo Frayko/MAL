@@ -16,20 +16,24 @@ final class AnimeListPresenter
 {
 	private let model: IAnimeListModel
 	private let router: IAnimeListRouter
+	private let network: INetworkService
 	private weak var view: IAnimeListView?
 	private weak var controller: IAnimeListVC?
 	private let collectionDelegate: IAnimeListCollectionDelegate
 	private let collectionDataSource: IAnimeListCollectionDataSource
 	private var animesInstance: AnimeStorage
+	private let animeTopURL: String = "https://api.jikan.moe/v3/top/anime"
 	
 	struct Dependecies {
 		let model: IAnimeListModel
 		let router: IAnimeListRouter
+		let network: INetworkService
 	}
 	
 	init(dependecies: Dependecies) {
 		self.model = dependecies.model
 		self.router = dependecies.router
+		self.network = dependecies.network
 		self.animesInstance = AnimeStorage.shared
 		self.collectionDataSource = AnimeListCollectionDataSource()
 		self.collectionDelegate = AnimeListCollectionDeletage()
@@ -52,14 +56,48 @@ extension AnimeListPresenter: IAnimeListPresenter
 		self.collectionDataSource.didLoad()
 		self.collectionDelegate.setDataSource(self.collectionDataSource.getDataSource())
 		
-		self.setData()
+		self.loadData()
+		self.updateData()
 		self.setHandlers()
 	}
 }
 
 private extension AnimeListPresenter
 {
-	func setData() {
+	func loadData() {
+		self.network.loadData(urlString: self.animeTopURL) { (result: Result<AnimeTopRequest, Error>) in
+			switch result {
+			case .success(let animeTopRequest):
+				print("[NETWORK] model is: \(animeTopRequest)")
+				DispatchQueue.main.async {
+					print(animeTopRequest)
+					
+					for anime in animeTopRequest.top {
+						self.animesInstance.append(AnimeModel(malID: anime.malID,
+														 rank: anime.rank,
+														 title: anime.title,
+														 url: anime.url,
+														 imageURL: anime.imageURL,
+														 type: anime.type.rawValue,
+														 episodes: anime.episodes,
+														 startDate: anime.startDate ?? "",
+														 endData: anime.endDate ?? "",
+														 members: anime.members,
+														 score: anime.score))
+					}
+					
+					self.updateData()
+				}
+			case .failure(let error):
+				print("[NETWORK] error is: \(error)")
+				DispatchQueue.main.async {
+					print("Загрузка закончена с ошибкой \(error.localizedDescription)")
+				}
+			}
+		}
+	}
+	
+	func updateData() {
 		var animes = [AnimeListData]()
 		
 		for rawAnime in self.animesInstance.getAnimes() {

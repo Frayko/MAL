@@ -26,7 +26,7 @@ extension AnimeListModel: IAnimeListModel {
 								  episodes: data.episodes,
 								  members: data.members,
 								  score: data.score,
-								  image: data.image)
+								  imageURL: data.imageURL)
 	}
 	
 	func setData(data: AnimeListData) {
@@ -42,7 +42,7 @@ extension AnimeListModel: IAnimeListModel {
 								 episodes: -1,
 								 members: -1,
 								 score: 0.0,
-								 image: UIImage())
+								 imageURL: "")
 		}
 		
 		return data

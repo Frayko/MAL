@@ -14,14 +14,6 @@ final class AnimeStorage
 	
 	private init() {
 		self.animes = [AnimeModel]()
-		
-		self.animes = [
-			TestAnimes.anime1,
-			TestAnimes.anime2,
-			TestAnimes.anime3,
-			TestAnimes.anime4,
-			TestAnimes.anime5
-		]
 	}
 }
 
@@ -35,7 +27,11 @@ extension AnimeStorage
 		self.animes
 	}
 	
-	func getAnime(malID: Int) -> AnimeModel? {
-		self.animes.first { $0.malID == malID }
+	func has(malID: Int) -> Bool {
+		if let _ = self.animes.first(where: { $0.malID == malID } ) {
+			return true
+		} else {
+			return false
+		}
 	}
 }

@@ -13,19 +13,24 @@ protocol IDetailPagePresenter {
 
 final class DetailPagePresenter {
 	private let model: IDetailPageModel
+	private let network: INetworkService
 	private weak var view: IDetailPageView?
 	private weak var controller: IDetailPageVC?
 	private var detailAnimesInstance: DetailAnimeStorage
+	private let animeInfoURL: String
 	private let malID: Int
 	
 	struct Dependecies {
 		let model: IDetailPageModel
+		let network: INetworkService
 	}
 	
 	init(dependecies: Dependecies, malID: Int) {
 		self.model = dependecies.model
+		self.network = dependecies.network
 		self.detailAnimesInstance = DetailAnimeStorage.shared
 		self.malID = malID
+		self.animeInfoURL = "https://api.jikan.moe/v3/anime/\(self.malID)"
 	}
 }
 
@@ -36,23 +41,57 @@ extension DetailPagePresenter: IDetailPagePresenter {
 		
 		self.view?.didLoad()
 		
-		self.setData()
+		if self.detailAnimesInstance.has(malID: self.malID) {
+			self.setData()
+		}
+		else {
+			self.loadData()
+		}
 	}
 }
 
 private extension DetailPagePresenter {
+	func loadData() {
+		self.network.loadData(urlString: self.animeInfoURL) { (result: Result<AnimeInfoDTO, Error>) in
+			switch result {
+			case .success(let animeInfo):
+				print("[NETWORK] model is: \(animeInfo)")
+				DispatchQueue.main.async {
+					self.detailAnimesInstance.append(DetailAnimeModel(malID: animeInfo.malID,
+																rank: animeInfo.rank,
+																title: animeInfo.title,
+																url: animeInfo.url,
+																imageURL: animeInfo.imageURL,
+																type: animeInfo.type,
+																source: animeInfo.source,
+																status: animeInfo.status,
+																rating: animeInfo.rating,
+																synopsis: animeInfo.synopsis,
+																episodes: animeInfo.episodes,
+																members: animeInfo.members,
+																favorites: animeInfo.favorites,
+																score: animeInfo.score))
+					
+					self.setData()
+				}
+			case .failure(let error):
+				print("[NETWORK] error is: \(error)")
+				DispatchQueue.main.async {
+					print("Загрузка закончена с ошибкой \(error.localizedDescription)")
+				}
+			}
+		}
+	}
+	
 	func setData() {
 		let rawData = self.detailAnimesInstance.getAnime(malID: self.malID)
 		
 		guard let data = rawData else {
-			print("Не загрузили malID - ", self.malID)
+			print("No anime from malID - ", self.malID)
 			return
 		}
 		
 		self.controller?.navigationItem.title = "\(data.rank) place"
 		self.view?.setData(data)
-		//let modelViewAnime = self.model.getAnime()
-		
-		//self.view?.setData(modelViewAnime)
 	}
 }

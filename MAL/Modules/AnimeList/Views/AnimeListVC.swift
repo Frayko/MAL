@@ -34,7 +34,7 @@ final class AnimeListVC: UIViewController
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.title = "Top-100"
+		self.title = "Top-50"
 	}
 }
 

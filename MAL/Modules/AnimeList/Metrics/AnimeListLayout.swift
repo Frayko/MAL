@@ -24,6 +24,9 @@ enum AnimeListLayout
 	
 	static let itemHeightSize: CGFloat = 1.0
 	static let itemWidthSize: CGFloat = 1.0
+	static let itemBorderWidth: CGFloat = 0.5
+	
+	static let mainStackOpacity: Float = 0.85
 	
 	static let iconImageViewWidth: CGFloat = 13.0
 	static let iconImageViewHeight: CGFloat = 13.0
@@ -31,5 +34,5 @@ enum AnimeListLayout
 	static let cellHeight: CGFloat = 220
 	static let cellWidth: CGFloat = 1.0
 	
-	static let stackViewSpacing: CGFloat = 10
+	static let stackViewSpacing: CGFloat = 5
 }

@@ -12,7 +12,7 @@ enum DetailPageLayout {
 	static let stackViewCornerRadius: CGFloat = 25.0
 	static let stackViewSpacing: CGFloat = 2.0
 	static let stackViewTopAnchor: CGFloat = 10.0
-	static let stackViewLeadingAnchor: CGFloat = 20.0
+	static let stackViewLeadingAnchor: CGFloat = 10.0
 	static let stackViewTrailingAnchor: CGFloat = -stackViewLeadingAnchor
 	static let stackViewBottomAnchor: CGFloat = -10.0
 	

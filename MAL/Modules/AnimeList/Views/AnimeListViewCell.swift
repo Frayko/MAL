@@ -15,17 +15,29 @@ final class AnimeCell: UICollectionViewCell {
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.contentMode = .scaleToFill
 		imageView.backgroundColor = .lightGray
+		imageView.layer.borderColor = UIColor.white.cgColor
+		imageView.layer.borderWidth = AnimeListLayout.itemBorderWidth
 		imageView.layer.masksToBounds = true
 		imageView.layer.cornerRadius = AnimeListLayout.animeCellImageCornerRadius
 		imageView.clipsToBounds = true
 		return imageView
 	}()
 	
+	private lazy var rankLabel: UILabel = {
+		let label = UILabel()
+		label.numberOfLines = 1
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+		label.adjustsFontForContentSizeCategory = true
+		label.textAlignment = .left
+		return label
+	}()
+	
 	private lazy var title: UILabel = {
 		let label = UILabel()
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+		label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 		label.adjustsFontForContentSizeCategory = true
 		label.textAlignment = .left
 		return label
@@ -35,7 +47,7 @@ final class AnimeCell: UICollectionViewCell {
 		let label = UILabel()
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 11, weight: .light)
+		label.font = UIFont.systemFont(ofSize: 12, weight: .light)
 		label.adjustsFontForContentSizeCategory = true
 		label.textAlignment = .left
 		return label
@@ -56,7 +68,7 @@ final class AnimeCell: UICollectionViewCell {
 		let label = UILabel()
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 11, weight: .light)
+		label.font = UIFont.systemFont(ofSize: 12, weight: .light)
 		label.adjustsFontForContentSizeCategory = true
 		label.textAlignment = .left
 		return label
@@ -77,7 +89,7 @@ final class AnimeCell: UICollectionViewCell {
 		let label = UILabel()
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 11, weight: .light)
+		label.font = UIFont.systemFont(ofSize: 12, weight: .light)
 		label.adjustsFontForContentSizeCategory = true
 		label.textAlignment = .left
 		return label
@@ -91,9 +103,8 @@ final class AnimeCell: UICollectionViewCell {
 													self.membersLabel])
 		
 		hStack.axis = .horizontal
-		hStack.spacing = DetailPageLayout.stackViewSpacing
+		hStack.spacing = AnimeListLayout.stackViewSpacing
 		hStack.alignment = .leading
-		//hStack.layer.cornerRadius = DetailPageLayout.stackViewCornerRadius
 		hStack.layer.masksToBounds = true
 		hStack.translatesAutoresizingMaskIntoConstraints = false
 		
@@ -101,12 +112,19 @@ final class AnimeCell: UICollectionViewCell {
 	}()
 	
 	private lazy var mainStackView: UIStackView = {
-		let vStack = UIStackView(arrangedSubviews: [self.title,
+		let vStack = UIStackView(arrangedSubviews: [self.rankLabel,
+													self.title,
 													self.infoStackView])
 		
 		vStack.axis = .vertical
-		vStack.spacing = DetailPageLayout.stackViewSpacing
+		vStack.spacing = AnimeListLayout.stackViewSpacing
+		vStack.backgroundColor = .systemBackground
 		vStack.alignment = .leading
+		vStack.layer.opacity = AnimeListLayout.mainStackOpacity
+		vStack.layer.masksToBounds = true
+		vStack.layer.cornerRadius = AnimeListLayout.animeCellImageCornerRadius
+		vStack.layer.borderColor = UIColor.white.cgColor
+		vStack.layer.borderWidth = AnimeListLayout.itemBorderWidth
 		vStack.translatesAutoresizingMaskIntoConstraints = false
 		
 		return vStack
@@ -123,8 +141,10 @@ final class AnimeCell: UICollectionViewCell {
 
 extension AnimeCell {
 	func setData(data: AnimeListData) {
-		self.title.text = data.title
-		self.typeAndEpisodesLabel.text = "\(data.type)(\(data.episodes))"
+		self.imageView.downloaded(from: data.imageURL)
+		self.rankLabel.text = "  Rank #\(data.rank)"
+		self.title.text = "  \(data.title)"
+		self.typeAndEpisodesLabel.text = "  \(data.type)(\(data.episodes))"
 		self.scoreLabel.text = "\(data.score)"
 		self.membersLabel.text = "\(data.members)"
 	}
@@ -132,6 +152,7 @@ extension AnimeCell {
 
 private extension AnimeCell {
 	func configureView() {
+		
 		self.contentView.addSubview(self.imageView)
 		
 		NSLayoutConstraint.activate([
@@ -146,13 +167,30 @@ private extension AnimeCell {
 		self.contentView.addSubview(self.mainStackView)
 		
 		NSLayoutConstraint.activate([
-			self.mainStackView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor,
-											constant: -AnimeListLayout.animeCellBottomAnchor),
-			self.mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,
-												constant: AnimeListLayout.animeCellLeadingAnchor),
-			self.mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,
-												 constant: AnimeListLayout.animeCellTrailingAnchor)
+			self.mainStackView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+			self.mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+			self.mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
 			])
 	}
 }
 
+extension UIImageView {
+	func downloaded(from url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFill) {
+		contentMode = mode
+		URLSession.shared.dataTask(with: url) { data, response, error in
+			guard
+				let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+				let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+				let data = data, error == nil,
+				let image = UIImage(data: data)
+				else { return }
+			DispatchQueue.main.async() {
+				self.image = image
+			}
+		}.resume()
+	}
+	func downloaded(from link: String, contentMode mode: UIView.ContentMode = .scaleAspectFill) {
+		guard let url = URL(string: link) else { return }
+		downloaded(from: url, contentMode: mode)
+	}
+}

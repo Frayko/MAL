@@ -55,7 +55,7 @@ final class DetailPageView: UIView {
 		let label = UILabel()
 		label.numberOfLines = 0
 		label.contentMode = .scaleAspectFit
-		label.textAlignment = .center
+		label.textAlignment = .left
 		label.font = UIFont.preferredFont(forTextStyle: .body)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -65,7 +65,7 @@ final class DetailPageView: UIView {
 		let label = UILabel()
 		label.numberOfLines = 0
 		label.contentMode = .scaleAspectFit
-		label.textAlignment = .center
+		label.textAlignment = .left
 		label.font = UIFont.preferredFont(forTextStyle: .body)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -75,7 +75,7 @@ final class DetailPageView: UIView {
 		let label = UILabel()
 		label.numberOfLines = 0
 		label.contentMode = .scaleAspectFit
-		label.textAlignment = .center
+		label.textAlignment = .left
 		label.font = UIFont.preferredFont(forTextStyle: .body)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -85,7 +85,7 @@ final class DetailPageView: UIView {
 		let label = UILabel()
 		label.numberOfLines = 0
 		label.contentMode = .scaleAspectFit
-		label.textAlignment = .center
+		label.textAlignment = .left
 		label.font = UIFont.preferredFont(forTextStyle: .body)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -95,7 +95,7 @@ final class DetailPageView: UIView {
 		let label = UILabel()
 		label.numberOfLines = 0
 		label.contentMode = .scaleAspectFit
-		label.textAlignment = .center
+		label.textAlignment = .left
 		label.font = UIFont.preferredFont(forTextStyle: .body)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -105,7 +105,7 @@ final class DetailPageView: UIView {
 		let label = UILabel()
 		label.numberOfLines = 0
 		label.contentMode = .scaleAspectFit
-		label.textAlignment = .center
+		label.textAlignment = .left
 		label.font = UIFont.preferredFont(forTextStyle: .body)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -117,7 +117,7 @@ final class DetailPageView: UIView {
 		textView.font = UIFont.preferredFont(forTextStyle: .title3)
 		textView.layer.cornerRadius = DetailPageLayout.stackViewCornerRadius
 		textView.layer.masksToBounds = true
-		textView.textAlignment = .center
+		textView.textAlignment = .left
 		textView.isEditable = false
 		textView.isSelectable = true
 		textView.isScrollEnabled = false
@@ -135,7 +135,7 @@ final class DetailPageView: UIView {
 		
 		vStack.axis = .vertical
 		vStack.spacing = DetailPageLayout.stackViewSpacing
-		vStack.alignment = .center
+		vStack.alignment = .leading
 		vStack.translatesAutoresizingMaskIntoConstraints = false
 		
 		return vStack
@@ -181,10 +181,10 @@ extension DetailPageView: IDetailPageView {
 	}
 	
 	func setData(_ data: DetailAnimeModel) {
-		self.imageView.image = data.image
+		self.imageView.downloaded(from: data.imageURL)
 		self.titleLabel.text = data.title
 		self.scoreLabel.text = "Score: \(data.score)"
-		self.ratingLabel.text = "Raing: \(data.rating)"
+		self.ratingLabel.text = "Rating: \(data.rating)"
 		self.sourceLabel.text = "Source: \(data.source)"
 		self.typeLabel.text = "Type: \(data.type)"
 		self.countEpisodesLabel.text = "\(data.episodes) episodes"
@@ -229,4 +229,3 @@ private extension DetailPageView {
 		])
 	}
 }
-

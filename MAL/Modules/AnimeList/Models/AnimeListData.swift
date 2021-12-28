@@ -17,7 +17,7 @@ struct AnimeListData
 	let episodes: Int
 	let members: Int
 	let score: Double
-	let image: UIImage
+	let imageURL: String
 }
 
 extension AnimeListData: Hashable {

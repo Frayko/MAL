@@ -12,8 +12,8 @@ struct AnimeModel
 	let malID: Int
 	let rank: Int
 	let title: String
-	let url: URL?
-	let image: UIImage
+	let url: String
+	let imageURL: String
 	let type: String
 	let episodes: Int
 	let startDate: String

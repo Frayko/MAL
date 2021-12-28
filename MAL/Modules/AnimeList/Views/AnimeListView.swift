@@ -15,14 +15,6 @@ protocol IAnimeListView: UIView {
 }
 
 final class AnimeListView: UIView {
-//
-//	private lazy var searchBar: UISearchBar = {
-//		let searchBar = UISearchBar(frame: .zero)
-//		searchBar.translatesAutoresizingMaskIntoConstraints = false
-//		searchBar.placeholder = "Поиск"
-//		return searchBar
-//	}()
-	
 	private lazy var animesCollectionView: UICollectionView = {
 		let layout = createAnimeListLayout()
 		let collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
