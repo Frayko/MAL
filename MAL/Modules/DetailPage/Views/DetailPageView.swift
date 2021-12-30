@@ -35,8 +35,8 @@ final class DetailPageView: UIView {
 		imageView.clipsToBounds = true
 		imageView.center = self.center
 		imageView.backgroundColor = .lightGray
-		imageView.widthAnchor.constraint(equalToConstant: self.bounds.width / DetailPageLayout.imageViewWidthConstant).isActive = true
-		//imageView.heightAnchor.constraint(equalToConstant: self.bounds.height / DetailPageLayout.imageViewHeightConstant).isActive = true
+		imageView.widthAnchor.constraint(equalToConstant: DetailPageLayout.imageViewWidthConstant).isActive = true
+		imageView.heightAnchor.constraint(equalToConstant: DetailPageLayout.imageViewHeightConstant).isActive = true
 		
 		return imageView
 	}()
@@ -51,6 +51,17 @@ final class DetailPageView: UIView {
 		return label
 	}()
 	
+	private lazy var scoreImageView: UIImageView = {
+		let imageView = UIImageView()
+		imageView.image = UIImage(systemName: "star")
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		imageView.contentMode = .scaleAspectFit
+		imageView.widthAnchor.constraint(equalToConstant: DetailPageLayout.iconImageViewWidth).isActive = true
+		imageView.heightAnchor.constraint(equalToConstant: DetailPageLayout.iconImageViewHeight).isActive = true
+		imageView.clipsToBounds = true
+		return imageView
+	}()
+	
 	private lazy var scoreLabel: UILabel = {
 		let label = UILabel()
 		label.numberOfLines = 0
@@ -61,7 +72,7 @@ final class DetailPageView: UIView {
 		return label
 	}()
 	
-	private lazy var typeLabel: UILabel = {
+	private lazy var typeAndEpisodesLabel: UILabel = {
 		let label = UILabel()
 		label.numberOfLines = 0
 		label.contentMode = .scaleAspectFit
@@ -70,16 +81,16 @@ final class DetailPageView: UIView {
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()
-	
-	private lazy var countEpisodesLabel: UILabel = {
-		let label = UILabel()
-		label.numberOfLines = 0
-		label.contentMode = .scaleAspectFit
-		label.textAlignment = .left
-		label.font = UIFont.preferredFont(forTextStyle: .body)
-		label.translatesAutoresizingMaskIntoConstraints = false
-		return label
-	}()
+//
+//	private lazy var countEpisodesLabel: UILabel = {
+//		let label = UILabel()
+//		label.numberOfLines = 0
+//		label.contentMode = .scaleAspectFit
+//		label.textAlignment = .left
+//		label.font = UIFont.preferredFont(forTextStyle: .body)
+//		label.translatesAutoresizingMaskIntoConstraints = false
+//		return label
+//	}()
 	
 	private lazy var airStatusLabel: UILabel = {
 		let label = UILabel()
@@ -89,6 +100,17 @@ final class DetailPageView: UIView {
 		label.font = UIFont.preferredFont(forTextStyle: .body)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
+	}()
+	
+	private lazy var sourceImageView: UIImageView = {
+		let imageView = UIImageView()
+		imageView.image = UIImage(systemName: "book.closed")
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		imageView.contentMode = .scaleAspectFit
+		imageView.widthAnchor.constraint(equalToConstant: DetailPageLayout.iconImageViewWidth).isActive = true
+		imageView.heightAnchor.constraint(equalToConstant: DetailPageLayout.iconImageViewHeight).isActive = true
+		imageView.clipsToBounds = true
+		return imageView
 	}()
 	
 	private lazy var sourceLabel: UILabel = {
@@ -114,7 +136,7 @@ final class DetailPageView: UIView {
 	private lazy var descriptionTextView: UITextView = {
 		let textView = UITextView(frame: .zero, textContainer: nil)
 		textView.backgroundColor = .quaternarySystemFill
-		textView.font = UIFont.preferredFont(forTextStyle: .title3)
+		textView.font = .systemFont(ofSize: 20, weight: .light)
 		textView.layer.cornerRadius = DetailPageLayout.stackViewCornerRadius
 		textView.layer.masksToBounds = true
 		textView.textAlignment = .left
@@ -125,12 +147,35 @@ final class DetailPageView: UIView {
 		return textView
 	}()
 	
+	private lazy var scoreStackView: UIStackView = {
+		let vStack = UIStackView(arrangedSubviews: [self.scoreImageView,
+													self.scoreLabel])
+		
+		vStack.axis = .horizontal
+		vStack.spacing = DetailPageLayout.stackViewSpacing
+		vStack.alignment = .leading
+		vStack.translatesAutoresizingMaskIntoConstraints = false
+		
+		return vStack
+	}()
+	
+	private lazy var sourceStackView: UIStackView = {
+		let vStack = UIStackView(arrangedSubviews: [self.sourceImageView,
+													self.sourceLabel])
+		
+		vStack.axis = .horizontal
+		vStack.spacing = DetailPageLayout.stackViewSpacing
+		vStack.alignment = .leading
+		vStack.translatesAutoresizingMaskIntoConstraints = false
+		
+		return vStack
+	}()
+	
 	private lazy var infoStackView: UIStackView = {
-		let vStack = UIStackView(arrangedSubviews: [self.scoreLabel,
+		let vStack = UIStackView(arrangedSubviews: [self.scoreStackView,
 													self.ratingLabel,
-													self.sourceLabel,
-													self.typeLabel,
-													self.countEpisodesLabel,
+													self.sourceStackView,
+													self.typeAndEpisodesLabel,
 													self.airStatusLabel])
 		
 		vStack.axis = .vertical
@@ -183,13 +228,12 @@ extension DetailPageView: IDetailPageView {
 	func setData(_ data: DetailAnimeModel) {
 		self.imageView.downloaded(from: data.imageURL)
 		self.titleLabel.text = data.title
-		self.scoreLabel.text = "Score: \(data.score)"
+		self.scoreLabel.text = "\(data.score)"
 		self.ratingLabel.text = "Rating: \(data.rating)"
-		self.sourceLabel.text = "Source: \(data.source)"
-		self.typeLabel.text = "Type: \(data.type)"
-		self.countEpisodesLabel.text = "\(data.episodes) episodes"
-		self.airStatusLabel.text = "Status: \(data.status)"
-		self.descriptionTextView.text = "Synopsis\n\n" + data.synopsis
+		self.sourceLabel.text = "\(data.source)"
+		self.typeAndEpisodesLabel.text = "\(data.type) (\(data.episodes) ep.)"
+		self.airStatusLabel.text = "\(data.status)"
+		self.descriptionTextView.text = "\(data.synopsis)"
 	}
 }
 
