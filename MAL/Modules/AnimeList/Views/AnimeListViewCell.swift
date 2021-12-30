@@ -13,9 +13,9 @@ final class AnimeCell: UICollectionViewCell {
 	private lazy var imageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
-		imageView.contentMode = .scaleToFill
+		imageView.contentMode = .scaleAspectFit
 		imageView.backgroundColor = .lightGray
-		imageView.layer.borderColor = UIColor.white.cgColor
+		imageView.layer.borderColor = UIColor.lightGray.cgColor
 		imageView.layer.borderWidth = AnimeListLayout.itemBorderWidth
 		imageView.layer.masksToBounds = true
 		imageView.layer.cornerRadius = AnimeListLayout.animeCellImageCornerRadius
@@ -27,7 +27,7 @@ final class AnimeCell: UICollectionViewCell {
 		let label = UILabel()
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+		label.font = UIFont.systemFont(ofSize: 13, weight: .bold)
 		label.adjustsFontForContentSizeCategory = true
 		label.textAlignment = .left
 		return label
@@ -37,7 +37,7 @@ final class AnimeCell: UICollectionViewCell {
 		let label = UILabel()
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+		label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
 		label.adjustsFontForContentSizeCategory = true
 		label.textAlignment = .left
 		return label
@@ -47,7 +47,7 @@ final class AnimeCell: UICollectionViewCell {
 		let label = UILabel()
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+		label.font = UIFont.systemFont(ofSize: 10, weight: .light)
 		label.adjustsFontForContentSizeCategory = true
 		label.textAlignment = .left
 		return label
@@ -55,7 +55,7 @@ final class AnimeCell: UICollectionViewCell {
 	
 	private lazy var scoreImageView: UIImageView = {
 		let imageView = UIImageView()
-		imageView.image = UIImage(systemName: "seal")
+		imageView.image = UIImage(systemName: "star")
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.contentMode = .scaleAspectFit
 		imageView.widthAnchor.constraint(equalToConstant: AnimeListLayout.iconImageViewWidth).isActive = true
@@ -68,7 +68,7 @@ final class AnimeCell: UICollectionViewCell {
 		let label = UILabel()
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+		label.font = UIFont.systemFont(ofSize: 10, weight: .light)
 		label.adjustsFontForContentSizeCategory = true
 		label.textAlignment = .left
 		return label
@@ -89,7 +89,7 @@ final class AnimeCell: UICollectionViewCell {
 		let label = UILabel()
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+		label.font = UIFont.systemFont(ofSize: 10, weight: .light)
 		label.adjustsFontForContentSizeCategory = true
 		label.textAlignment = .left
 		return label
@@ -123,7 +123,7 @@ final class AnimeCell: UICollectionViewCell {
 		vStack.layer.opacity = AnimeListLayout.mainStackOpacity
 		vStack.layer.masksToBounds = true
 		vStack.layer.cornerRadius = AnimeListLayout.animeCellImageCornerRadius
-		vStack.layer.borderColor = UIColor.white.cgColor
+		vStack.layer.borderColor = UIColor.lightGray.cgColor
 		vStack.layer.borderWidth = AnimeListLayout.itemBorderWidth
 		vStack.translatesAutoresizingMaskIntoConstraints = false
 		

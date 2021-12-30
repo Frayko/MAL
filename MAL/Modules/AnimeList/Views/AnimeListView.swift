@@ -102,8 +102,8 @@ private extension AnimeListView
 			let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(AnimeListLayout.itemWidthSize),
 												  heightDimension: .fractionalHeight(AnimeListLayout.itemHeightSize))
 			let item = NSCollectionLayoutItem(layoutSize: itemSize)
-			let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(AnimeListLayout.cellWidth),
-												   heightDimension: .absolute(AnimeListLayout.cellHeight))
+			let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(AnimeListLayout.cellFractionalWidth),
+												   heightDimension: .estimated(AnimeListLayout.cellHeight))
 			let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columns)
 			group.interItemSpacing = .fixed(AnimeListLayout.collectionViewSpacing)
 
