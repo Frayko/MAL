@@ -69,13 +69,13 @@ private extension AnimeListPresenter
 {
 	func loadData() {
 		self.view?.startRefreshing()
+		//self.view?.startRefreshing()
 		self.network.loadData(urlString: self.animeTopURL) { (result: Result<AnimeTopRequest, Error>) in
 			switch result {
 			case .success(let animeTopRequest):
 				print("[NETWORK] model is: \(animeTopRequest)")
 				DispatchQueue.main.async {
 					print(animeTopRequest)
-					
 					for anime in animeTopRequest.top {
 						self.animesInstance.append(AnimeModel(malID: anime.malID,
 															  rank: anime.rank,
@@ -89,8 +89,8 @@ private extension AnimeListPresenter
 															  members: anime.members,
 															  score: anime.score))
 					}
-					
 					self.updateData()
+					//self.view
 					self.view?.stopRefreshing()
 				}
 			case .failure(let error):
