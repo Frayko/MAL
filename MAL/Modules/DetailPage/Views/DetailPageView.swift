@@ -10,6 +10,8 @@ import UIKit
 protocol IDetailPageView: UIView {
 	func didLoad()
 	func setData(_ data: DetailAnimeModel)
+	func showActivityIndicator()
+	func hideActivityIndicator()
 }
 
 final class DetailPageView: UIView {
@@ -81,17 +83,7 @@ final class DetailPageView: UIView {
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()
-//
-//	private lazy var countEpisodesLabel: UILabel = {
-//		let label = UILabel()
-//		label.numberOfLines = 0
-//		label.contentMode = .scaleAspectFit
-//		label.textAlignment = .left
-//		label.font = UIFont.preferredFont(forTextStyle: .body)
-//		label.translatesAutoresizingMaskIntoConstraints = false
-//		return label
-//	}()
-	
+
 	private lazy var airStatusLabel: UILabel = {
 		let label = UILabel()
 		label.numberOfLines = 0
@@ -216,13 +208,53 @@ final class DetailPageView: UIView {
 		
 		return vStack
 	}()
+	
+	private lazy var hideScreenImageView: UIImageView = {
+		let imageView = UIImageView(frame: .zero)
+		imageView.backgroundColor = .systemBackground
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		return imageView
+	}()
+	
+	private lazy var activityIndicatorView: UIActivityIndicatorView = {
+		let activityIndicator = UIActivityIndicatorView()
+		activityIndicator.color = .secondaryLabel
+		activityIndicator.hidesWhenStopped = true
+		activityIndicator.style = .large
+		activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+		return activityIndicator
+	}()
+	
+	private lazy var activityIndicatorBackgroundView: UIImageView = {
+		let imageView = UIImageView(frame: .zero)
+		imageView.image = UIImage()
+		imageView.isHidden = true
+		imageView.backgroundColor = .quaternaryLabel
+		imageView.layer.masksToBounds = true
+		imageView.layer.cornerRadius = DetailPageLayout.activityIndicatorBackgroundViewCornerRadius
+		imageView.layer.opacity = DetailPageLayout.activityIndicatorBackgroundViewOpacity
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		return imageView
+	}()
 }
 
 extension DetailPageView: IDetailPageView {
+	func showActivityIndicator() {
+		self.activityIndicatorBackgroundView.isHidden = false
+		self.activityIndicatorView.startAnimating()
+	}
+	
+	func hideActivityIndicator() {
+		self.activityIndicatorBackgroundView.isHidden = true
+		self.activityIndicatorView.stopAnimating()
+	}
+	
 	func didLoad() {
 		self.configureUI()
 		self.configureView()
 		self.configureScrollView()
+		self.configureHideScreenView()
+		self.configureActivityIndicator()
 	}
 	
 	func setData(_ data: DetailAnimeModel) {
@@ -234,12 +266,24 @@ extension DetailPageView: IDetailPageView {
 		self.typeAndEpisodesLabel.text = "\(data.type) (\(data.episodes) ep.)"
 		self.airStatusLabel.text = "\(data.status)"
 		self.descriptionTextView.text = "\(data.synopsis)"
+		self.hideScreenImageView.isHidden = true
 	}
 }
 
 private extension DetailPageView {
 	func configureUI() {
 		self.backgroundColor = .systemBackground
+	}
+	
+	func configureHideScreenView() {
+		self.addSubview(self.hideScreenImageView)
+		
+		NSLayoutConstraint.activate([
+			self.hideScreenImageView.topAnchor.constraint(equalTo: self.topAnchor),
+			self.hideScreenImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			self.hideScreenImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			self.hideScreenImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+		])
 	}
 	
 	func configureView() {
@@ -270,6 +314,23 @@ private extension DetailPageView {
 			self.scrollView.contentLayoutGuide.topAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.topAnchor),
 			self.scrollView.contentLayoutGuide.leadingAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.leadingAnchor),
 			self.scrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.trailingAnchor)
+		])
+	}
+	
+	func configureActivityIndicator() {
+		self.addSubview(self.activityIndicatorBackgroundView)
+		self.addSubview(self.activityIndicatorView)
+		
+		NSLayoutConstraint.activate([
+			self.activityIndicatorBackgroundView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+			self.activityIndicatorBackgroundView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+			self.activityIndicatorBackgroundView.widthAnchor.constraint(equalToConstant: DetailPageLayout.activityIndicatorBackgroundViewSize),
+			self.activityIndicatorBackgroundView.heightAnchor.constraint(equalToConstant: DetailPageLayout.activityIndicatorBackgroundViewSize)
+		])
+		
+		NSLayoutConstraint.activate([
+			self.activityIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+			self.activityIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
 		])
 	}
 }

@@ -26,5 +26,9 @@ enum DetailPageLayout {
 	static let scrollViewLeadingAnchor: CGFloat = 10.0
 	static let scrollViewTrailingAnchor: CGFloat = -scrollViewLeadingAnchor
 	static let scrollViewBottomAnchor: CGFloat = -10.0
+	
+	static let activityIndicatorBackgroundViewOpacity: Float = 0.95
+	static let activityIndicatorBackgroundViewSize: CGFloat = 64
+	static let activityIndicatorBackgroundViewCornerRadius: CGFloat = 16
 }
 

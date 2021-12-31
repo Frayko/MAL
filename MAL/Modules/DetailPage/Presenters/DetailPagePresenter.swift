@@ -52,6 +52,7 @@ extension DetailPagePresenter: IDetailPagePresenter {
 
 private extension DetailPagePresenter {
 	func loadData() {
+		self.view?.showActivityIndicator()
 		self.network.loadData(urlString: self.animeInfoURL) { (result: Result<AnimeInfoDTO, Error>) in
 			switch result {
 			case .success(let animeInfo):
@@ -73,6 +74,7 @@ private extension DetailPagePresenter {
 																score: animeInfo.score))
 					
 					self.setData()
+					self.view?.hideActivityIndicator()
 				}
 			case .failure(let error):
 				print("[NETWORK] error is: \(error)")

@@ -57,10 +57,12 @@ extension AnimeListView: IAnimeListView {
 	
 	func stopRefreshing() {
 		self.refreshControll.endRefreshing()
+		self.refreshControll.attributedTitle = NSAttributedString(string: "Pull to refresh")
 	}
 	
 	func startRefreshing() {
 		self.refreshControll.beginRefreshing()
+		self.refreshControll.attributedTitle = NSAttributedString(string: "Refreshing")
 	}
 }
 

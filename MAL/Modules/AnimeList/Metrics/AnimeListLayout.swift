@@ -36,4 +36,8 @@ enum AnimeListLayout
 	static let cellFractionalWidth: CGFloat = 1.0
 	
 	static let stackViewSpacing: CGFloat = 1.5
+	
+	static let activityIndicatorBackgroundViewOpacity: Float = 0.95
+	static let activityIndicatorBackgroundViewSize: CGFloat = 64
+	static let activityIndicatorBackgroundViewCornerRadius: CGFloat = 16
 }

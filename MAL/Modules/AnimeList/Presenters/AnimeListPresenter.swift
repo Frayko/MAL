@@ -91,6 +91,7 @@ private extension AnimeListPresenter
 					}
 					
 					self.updateData()
+					self.view?.stopRefreshing()
 				}
 			case .failure(let error):
 				print("[NETWORK] error is: \(error)")
@@ -99,7 +100,6 @@ private extension AnimeListPresenter
 				}
 			}
 		}
-		self.view?.stopRefreshing()
 	}
 	
 	func updateData() {
@@ -115,7 +115,7 @@ private extension AnimeListPresenter
 
 	func setHandlers() {
 		self.collectionDelegate.setOnTouchedHandler { [weak self] malID in
-			print("touched malID - ", malID)
+			print("touched malID -", malID)
 			self?.router.goToDetailPage(malID: malID)
 		}
 		
