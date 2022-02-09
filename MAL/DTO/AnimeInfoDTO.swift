@@ -7,4 +7,5 @@
 
 struct AnimeInfoDTO: Codable {
 	let data: TemplateAnimeDTO?
+	let error: ErrorResponseDTO?
 }

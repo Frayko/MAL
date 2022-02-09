@@ -10,6 +10,7 @@ import Foundation
 struct AnimeTopDTO: Codable {
 	let data: [TemplateAnimeDTO]?
 	let pagination: Pagination?
+	let error: ErrorResponseDTO?
 }
 
 struct Pagination: Codable {
