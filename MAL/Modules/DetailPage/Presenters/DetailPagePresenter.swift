@@ -14,23 +14,28 @@ protocol IDetailPagePresenter {
 final class DetailPagePresenter {
 	private let model: IDetailPageModel
 	private let network: INetworkService
+	private let router: IDetailPageRouter
 	private weak var view: IDetailPageView?
 	private weak var controller: IDetailPageVC?
 	private var detailAnimesInstance: DetailAnimeStorage
 	private let animeInfoURL: String
 	private let malID: Int
+	private var countRequests: Int
 	
 	struct Dependecies {
 		let model: IDetailPageModel
 		let network: INetworkService
+		let router: IDetailPageRouter
 	}
 	
 	init(dependecies: Dependecies, malID: Int) {
 		self.model = dependecies.model
 		self.network = dependecies.network
+		self.router = dependecies.router
 		self.detailAnimesInstance = DetailAnimeStorage.shared
 		self.malID = malID
-		self.animeInfoURL = "https://api.jikan.moe/v3/anime/\(self.malID)"
+		self.animeInfoURL = "https://api.jikan.moe/v4/anime/\(self.malID)"
+		self.countRequests = 0
 	}
 }
 
@@ -40,6 +45,7 @@ extension DetailPagePresenter: IDetailPagePresenter {
 		self.view = view
 		
 		self.view?.didLoad()
+		self.setHandlers()
 		
 		if self.detailAnimesInstance.has(malID: self.malID) {
 			self.setData()
@@ -52,34 +58,61 @@ extension DetailPagePresenter: IDetailPagePresenter {
 
 private extension DetailPagePresenter {
 	func loadData() {
-		self.view?.showActivityIndicator()
+		DispatchQueue.main.async {
+			self.view?.showActivityIndicator()
+		}
 		self.network.loadData(urlString: self.animeInfoURL) { (result: Result<AnimeInfoDTO, Error>) in
 			switch result {
-			case .success(let animeInfo):
-				print("[NETWORK] model is: \(animeInfo)")
-				DispatchQueue.main.async {
+			case .success(let requestData):
+				//print("[NETWORK] model is: \(requestData)")
+				if let animeInfo = requestData.data {
 					self.detailAnimesInstance.append(DetailAnimeModel(malID: animeInfo.malID,
-																rank: animeInfo.rank,
-																title: animeInfo.title,
-																url: animeInfo.url,
-																imageURL: animeInfo.imageURL,
-																type: animeInfo.type,
-																source: animeInfo.source,
-																status: animeInfo.status,
-																rating: animeInfo.rating,
-																synopsis: animeInfo.synopsis,
-																episodes: animeInfo.episodes,
-																members: animeInfo.members,
-																favorites: animeInfo.favorites,
-																score: animeInfo.score))
-					
+																	  rank: animeInfo.rank,
+																	  title: animeInfo.title,
+																	  url: animeInfo.url,
+																	  imageURL: animeInfo.images["webp"]?.largeImageURL ?? "",
+																	  type: animeInfo.type,
+																	  source: animeInfo.source,
+																	  status: animeInfo.status,
+																	  rating: animeInfo.rating,
+																	  synopsis: animeInfo.synopsis ?? "No Synopsis",
+																	  episodes: animeInfo.episodes ?? 0,
+																	  members: animeInfo.members,
+																	  favorites: animeInfo.favorites,
+																	  score: animeInfo.score))
 					self.setData()
+				}
+				else {
+					DispatchQueue.main.async {
+					self.router.goToShowAlertMessage(title: "Error",
+													 message: "Loading data failed",
+													 popViewController: true)
+					}
+				}
+				
+				DispatchQueue.main.async {
 					self.view?.hideActivityIndicator()
 				}
+				self.countRequests = 0
 			case .failure(let error):
 				print("[NETWORK] error is: \(error)")
+				self.countRequests += 1
+				print("Загрузка закончена с ошибкой \(error.localizedDescription)")
+				
 				DispatchQueue.main.async {
-					print("Загрузка закончена с ошибкой \(error.localizedDescription)")
+					self.view?.hideActivityIndicator()
+				}
+				
+				if self.countRequests <= 5 {
+					self.loadData()
+				}
+				else {
+					DispatchQueue.main.async {
+					self.router.goToShowAlertMessage(title: "Error",
+													 message: error.localizedDescription,
+													 popViewController: true)
+					}
+					self.countRequests = 0
 				}
 			}
 		}
@@ -93,7 +126,17 @@ private extension DetailPagePresenter {
 			return
 		}
 		
-		self.controller?.navigationItem.title = "\(data.rank) place"
-		self.view?.setData(data)
+		DispatchQueue.main.async {
+			self.controller?.navigationItem.title = "\(data.rank) place"
+			self.view?.setData(data)
+		}
+	}
+	
+	func setHandlers() {
+		self.router.setGoToShowAlertMessageHandler { title, message, popViewController in
+			self.controller?.showAlertMessage(title: title,
+											  message: message,
+											  popViewController: popViewController)
+		}
 	}
 }

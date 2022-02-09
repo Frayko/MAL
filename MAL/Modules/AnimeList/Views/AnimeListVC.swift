@@ -10,6 +10,7 @@ import UIKit
 protocol IAnimeListVC: UIViewController
 {
 	func pushDetailPage(malID: Int)
+	func showAlertMessage(title: String, message: String, popViewController: Bool)
 }
 
 final class AnimeListVC: UIViewController
@@ -34,7 +35,7 @@ final class AnimeListVC: UIViewController
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.title = "Top-50"
+		self.title = "Top"
 	}
 }
 
@@ -44,5 +45,20 @@ extension AnimeListVC: IAnimeListVC
 		let detailPageVC = DetailPageAssembly.build(malID: malID)
 		self.navigationController?.pushViewController(detailPageVC,
 													  animated: true)
+	}
+	
+	func showAlertMessage(title: String, message: String, popViewController: Bool) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		
+		let okAction = UIAlertAction(title: "OK", style: .default)
+		alert.addAction(okAction)
+		
+		self.present(alert, animated: true) {
+			if popViewController {
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self.navigationController?.popViewController(animated: true)
+				}
+			}
+		}
 	}
 }

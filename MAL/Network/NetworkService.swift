@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import SystemConfiguration
 
 protocol INetworkService
 {
 	func loadData<T: Decodable>(urlString: String, completion: @escaping (Result<T, Error>) -> Void)
+	func checkConnection() -> Bool
 }
 
 final class NetworkService: NSObject
@@ -28,6 +30,31 @@ final class NetworkService: NSObject
 
 extension NetworkService: INetworkService
 {
+	//MARK: Проверять интернет этим методом только если отсутствует какая-либо анимация
+	func checkConnection() -> Bool {
+		var status = false
+		let url = URL(string: "https://google.com/")
+		var request = URLRequest(url: url!)
+		request.httpMethod = "HEAD"
+		request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+		request.timeoutInterval = 5.0
+		
+		let semaphore = DispatchSemaphore(value: 0)
+		
+		URLSession.shared.dataTask(with: request) { _, response, _ in
+			if let httpResponse = response as? HTTPURLResponse {
+				if httpResponse.statusCode == 200 {
+					status = true
+					semaphore.signal()
+				}
+			}
+		}.resume()
+		
+		_ = semaphore.wait(timeout: .now() + 5.0)
+
+		return status
+	}
+	
 	func loadData<T: Decodable>(urlString: String,completion: @escaping (Result<T, Error>) -> Void) {
 		guard let url = URL(string: urlString) else {
 			print("Ошибка в ссылке")
@@ -42,7 +69,7 @@ extension NetworkService: INetworkService
 			if let data = data {
 				do {
 					let result = try JSONDecoder().decode(T.self, from: data)
-					print("[NETWORK] \(response)")
+					//print("[NETWORK] \(response)")
 					completion(.success(result))
 				}
 				catch {

@@ -15,18 +15,30 @@ protocol IAnimeListCollectionDelegate: UICollectionViewDelegate
 {
 	func setCollectionView(view: UICollectionView)
 	func setOnTouchedHandler(_ handler: @escaping ((Int) -> Void))
+	func setOnScrolledHandler(_ handler: @escaping (() -> Void))
 	func setDataSource(_ dataSource: UICollectionViewDiffableDataSource<Section, AnimeListData>?)
+	func setIsLoadingList(status: Bool)
 }
 
 final class AnimeListCollectionDeletage: NSObject
 {
 	private var onTouchedHandler: ((_ malID: Int) -> Void)?
+	private var onScrolledHandler: (() -> Void)?
 	private var collectionView: UICollectionView?
 	private var dataSource: UICollectionViewDiffableDataSource<Section, AnimeListData>?
+	private var isLoadingList = false
 }
 
 extension AnimeListCollectionDeletage: IAnimeListCollectionDelegate
 {
+	func setIsLoadingList(status: Bool) {
+		self.isLoadingList = status
+	}
+	
+	func setOnScrolledHandler(_ handler: @escaping (() -> Void)) {
+		self.onScrolledHandler = handler
+	}
+	
 	func setDataSource(_ dataSource: UICollectionViewDiffableDataSource<Section, AnimeListData>?) {
 		self.dataSource = dataSource
 	}
@@ -47,5 +59,11 @@ extension AnimeListCollectionDeletage: UICollectionViewDelegate {
 			return
 		}
 		self.onTouchedHandler?(anime.malID)
+	}
+	
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		if (((scrollView.contentOffset.y + scrollView.frame.size.height * 3) > scrollView.contentSize.height)) {
+			self.onScrolledHandler?()
+		}
 	}
 }

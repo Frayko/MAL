@@ -8,7 +8,8 @@
 import UIKit
 
 protocol IDetailPageVC: UIViewController {
-
+	func goToPrevScreen()
+	func showAlertMessage(title: String, message: String, popViewController: Bool)
 }
 
 final class DetailPageVC: UIViewController {
@@ -42,5 +43,22 @@ final class DetailPageVC: UIViewController {
 }
 
 extension DetailPageVC: IDetailPageVC {
+	func goToPrevScreen() {
+		self.navigationController?.popToRootViewController(animated: true)
+	}
 	
+	func showAlertMessage(title: String, message: String, popViewController: Bool) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		
+		let okAction = UIAlertAction(title: "OK", style: .default)
+		alert.addAction(okAction)
+		
+		self.present(alert, animated: true) {
+			if popViewController {
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self.navigationController?.popViewController(animated: true)
+				}
+			}
+		}
+	}
 }

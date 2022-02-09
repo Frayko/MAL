@@ -23,7 +23,10 @@ final class AnimeListPresenter
 	private let collectionDelegate: IAnimeListCollectionDelegate
 	private let collectionDataSource: IAnimeListCollectionDataSource
 	private var animesInstance: AnimeStorage
-	private let animeTopURL: String = "https://api.jikan.moe/v3/top/anime"
+	private let animeTopURL: String = "https://api.jikan.moe/v4/top/anime?page="
+	private var countRequests: Int
+	private var isLoadingList: Bool
+	private var currentPage: Int
 	
 	struct Dependecies {
 		let model: IAnimeListModel
@@ -38,6 +41,9 @@ final class AnimeListPresenter
 		self.network = dependecies.network
 		self.animeStorage = dependecies.animeStorage
 		self.animesInstance = AnimeStorage.shared
+		self.isLoadingList = true
+		self.countRequests = 0
+		self.currentPage = 1
 		self.collectionDataSource = AnimeListCollectionDataSource()
 		self.collectionDelegate = AnimeListCollectionDeletage()
 	}
@@ -59,44 +65,65 @@ extension AnimeListPresenter: IAnimeListPresenter
 		self.collectionDataSource.didLoad()
 		self.collectionDelegate.setDataSource(self.collectionDataSource.getDataSource())
 		
-	
-		self.loadData()
 		self.setHandlers()
+		self.pullToRefresh()
 	}
 }
 
 private extension AnimeListPresenter
 {
+	func pullToRefresh() {
+		self.loadData()
+		DispatchQueue.main.async {
+			self.view?.stopRefreshing()
+		}
+	}
+	
 	func loadData() {
-		self.view?.startRefreshing()
-		//self.view?.startRefreshing()
-		self.network.loadData(urlString: self.animeTopURL) { (result: Result<AnimeTopRequest, Error>) in
+		self.isLoadingList = true
+		self.network.loadData(urlString: self.animeTopURL + String(self.currentPage)) { (result: Result<AnimeTopDTO, Error>) in
 			switch result {
-			case .success(let animeTopRequest):
-				print("[NETWORK] model is: \(animeTopRequest)")
-				DispatchQueue.main.async {
-					print(animeTopRequest)
-					for anime in animeTopRequest.top {
-						self.animesInstance.append(AnimeModel(malID: anime.malID,
-															  rank: anime.rank,
-															  title: anime.title,
-															  url: anime.url,
-															  imageURL: anime.imageURL,
-															  type: anime.type.rawValue,
-															  episodes: anime.episodes,
-															  startDate: anime.startDate ?? "",
-															  endDate: anime.endDate ?? "",
-															  members: anime.members,
-															  score: anime.score))
+			case .success(let requestData):
+				//print("[NETWORK] model is: \(requestData)")
+				if let animes = requestData.data {
+				for anime in animes {
+					self.animesInstance.append(AnimeModel(malID: anime.malID,
+														  rank: anime.rank,
+														  title: anime.title,
+														  url: anime.url,
+														  imageURL: anime.images["webp"]?.largeImageURL ?? "",
+														  type: anime.type,
+														  episodes: anime.episodes ?? 0,
+														  members: anime.members,
+														  score: anime.score))
 					}
+					self.currentPage += 1
 					self.updateData()
-					//self.view
-					self.view?.stopRefreshing()
 				}
+				else {
+					DispatchQueue.main.async {
+					self.router.goToShowAlertMessage(title: "Error",
+													 message: "Loading data failed",
+													 popViewController: false)
+					}
+				}
+				self.isLoadingList = false
+				self.countRequests = 0
 			case .failure(let error):
 				print("[NETWORK] error is: \(error)")
-				DispatchQueue.main.async {
-					print("Загрузка закончена с ошибкой \(error.localizedDescription)")
+				self.countRequests += 1
+				print("Загрузка закончена с ошибкой \(error.localizedDescription)")
+				if self.countRequests <= 5 {
+					self.loadData()
+				}
+				else {
+					self.isLoadingList = false
+					DispatchQueue.main.async {
+						self.router.goToShowAlertMessage(title: "Error",
+														 message: error.localizedDescription,
+														 popViewController: false)
+					}
+					self.countRequests = 0
 				}
 			}
 		}
@@ -110,7 +137,9 @@ private extension AnimeListPresenter
 			animes.append(self.model.getData())
 		}
 		
-		self.collectionDataSource.updateSnapshot(with: animes)
+		DispatchQueue.main.async {
+			self.collectionDataSource.updateSnapshot(with: animes)
+		}
 	}
 
 	func setHandlers() {
@@ -123,8 +152,20 @@ private extension AnimeListPresenter
 			self?.controller?.pushDetailPage(malID: malID)
 		}
 		
-		self.view?.setOnRefreshHandler {
-			self.loadData()
+		self.view?.setOnRefreshHandler { [weak self] in
+			self?.pullToRefresh()
+		}
+		
+		self.router.setGoToShowAlertMessageHandler { title, message, popViewController in
+			self.controller?.showAlertMessage(title: title,
+											  message: message,
+											  popViewController: popViewController)
+		}
+		
+		self.collectionDelegate.setOnScrolledHandler { [weak self] in
+			if self?.isLoadingList == false {
+				self?.loadData()
+			}
 		}
 	}
 }

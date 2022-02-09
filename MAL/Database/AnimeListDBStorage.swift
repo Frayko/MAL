@@ -43,8 +43,6 @@ extension AnimeListDBStorage: IAnimeDBStorage {
 			object.imageURL = anime.imageURL
 			object.type = anime.type
 			object.episodes = Int64(anime.episodes)
-			object.startDate = anime.startDate
-			object.endDate = anime.endDate
 			object.members = Int64(anime.members)
 			object.score = anime.score
 			try? context.save()
@@ -63,8 +61,6 @@ extension AnimeListDBStorage: IAnimeDBStorage {
 				object.imageURL = anime.imageURL
 				object.type = anime.type
 				object.episodes = Int64(anime.episodes)
-				object.startDate = anime.startDate
-				object.endDate = anime.endDate
 				object.members = Int64(anime.members)
 				object.score = anime.score
 			}
@@ -83,8 +79,6 @@ extension AnimeListDBStorage: IAnimeDBStorage {
 			object.imageURL = anime.imageURL
 			object.type = anime.type
 			object.episodes = Int64(anime.episodes)
-			object.startDate = anime.startDate
-			object.endDate = anime.endDate
 			object.members = Int64(anime.members)
 			object.score = anime.score
 			context.delete(object)

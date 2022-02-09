@@ -32,7 +32,7 @@ final class AnimeListView: UIView {
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.backgroundColor = .systemBackground
 		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		collectionView.addSubview(self.refreshControll)
+		collectionView.refreshControl = self.refreshControll
 		return collectionView
 	}()
 }
