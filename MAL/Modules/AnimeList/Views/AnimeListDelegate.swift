@@ -62,7 +62,7 @@ extension AnimeListCollectionDeletage: UICollectionViewDelegate {
 	}
 	
 	func scrollViewDidScroll(_ scrollView: UIScrollView) {
-		if (((scrollView.contentOffset.y + scrollView.frame.size.height * 3) > scrollView.contentSize.height)) {
+		if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height)) {
 			self.onScrolledHandler?()
 		}
 	}
